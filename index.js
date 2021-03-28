@@ -22,12 +22,13 @@ console.log(process.env);
 
 
 // Rutas
-app.get( '/', (req, res) => { // ? '/' solicitud, ruta
-    res.json({ // ? respuesta a la solicitud
-        ok: true,
-        msg: 'Hola mundo'
-    });
-} );
+app.use( '/api/usuarios', require('./routes/usuarios') );
+// app.get( '/api/usuario', (req, res) => { // ? '/' solicitud, ruta
+//     res.json({ // ? respuesta a la solicitud
+//         ok: true,
+//         msg: 'Hola mundo'
+//     });
+// } );
 
 app.listen(process.env.PORT, () => {
     console.log("serv corriendo en puerto" + process.env.PORT)
