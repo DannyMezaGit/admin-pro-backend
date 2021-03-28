@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config();
 const { dbConnection } = require('./database/config');
 
 
@@ -10,6 +11,7 @@ dbConnection();
 
 // mean_user
 // 5QuuF17DWz5mCnf9
+console.log(process.env);
 
 
 
@@ -21,6 +23,6 @@ app.get( '/', (req, res) => { // ? '/' solicitud, ruta
     });
 } );
 
-app.listen(3000, () => {
-    console.log("serv corriendo en puerto 3000")
+app.listen(process.env.PORT, () => {
+    console.log("serv corriendo en puerto" + process.env.PORT)
 });
