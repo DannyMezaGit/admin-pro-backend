@@ -1,8 +1,9 @@
 /*
     Ruta: /api/usuarios
 */
-const {Router} = require("express");
-const {check} = require("express-validator");
+const { Router } = require("express");
+const { check } = require("express-validator");
+const { validarCampos } = require("../middlewares/validar-campos");
 
 const { getUsuarios, crearUsuario } = require('../controllers/usuarios');
 
@@ -15,7 +16,8 @@ router.post('/', [
 
     check('nombre', 'el nombre es obligatorio').not().isEmpty(),
     check('password', 'password obligatorio').not().isEmpty(),
-    check('email', 'email obligatorio').isEmail()
+    check('email', 'email obligatorio').isEmail(),
+    validarCampos // debe ser el último a llamar, siempre después de los 'check'
 
 ], crearUsuario);
 
