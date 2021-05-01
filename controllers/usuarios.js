@@ -51,14 +51,60 @@ const crearUsuario = async (req, res = response) => {
         msg: 'Error inesperado'
       });
       
-    }
+    }  
+}
 
-   
+const updateUsuario = async (req, res = response) => {
+
+  const uid = req.params.id;
+
+  try {
+    
+    const usuarioDB = Usuario.findById( uid );
+
+    if (!usuarioDB) {
+      return res.status(404).json({
+        ok: false,
+        msg: $`No se encontró el usuario con el id ${uid}`
+      });
+    }
+    
+    // Actualizaciones
+    const {password, google, email, ...campos} = req.body;
+
+    if ( usuarioDB.email != email) {
+
+      const existeEmail = await Usuario.findOne({email});
+      
+      if (existeEmail) {
+        return res.status(400).json({
+          ok: false,
+          msg: "Un usuario ya existe con ese correo"
+        })
+      }
+    }
+    
+    const usuarioActualizado = await Usuario.findOneAndUpdate( uid, campos, { new: true } );
+    
+    res.json({
+      ok: true,
+      usuario: usuarioActualizado
+    });
+    
+    
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      msg: 'Error inesperado'
+    });
+  }
 }
 
 module.exports = {
     getUsuarios,
     crearUsuario,
+    updateUsuario
 
 
 }

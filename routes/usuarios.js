@@ -5,7 +5,7 @@ const { Router } = require("express");
 const { check } = require("express-validator");
 const { validarCampos } = require("../middlewares/validar-campos");
 
-const { getUsuarios, crearUsuario } = require('../controllers/usuarios');
+const { getUsuarios, crearUsuario, updateUsuario } = require('../controllers/usuarios');
 
 const router = Router();
 
@@ -20,5 +20,15 @@ router.post('/', [
     validarCampos // debe ser el último a llamar, siempre después de los 'check'
 
 ], crearUsuario);
+
+router.put('/:id', [
+
+    check('nombre', 'el nombre es obligatorio').not().isEmpty(),
+    check('email', 'email obligatorio').isEmail(),
+    check('role', 'role obligatorio').not().isEmpty(),
+    validarCampos
+
+], updateUsuario);
+
 
 module.exports = router;
