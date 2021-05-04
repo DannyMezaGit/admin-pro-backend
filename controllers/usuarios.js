@@ -101,10 +101,40 @@ const updateUsuario = async (req, res = response) => {
   }
 }
 
+const borrarUsuario = async (req, res = response) => {
+  
+  const uid = req.params.id;
+
+  try {
+
+    const usuarioBD = await Usuario.findById( uid );
+
+    if (!usuarioBD) {
+      return res.status(400).json({
+        ok: false,
+        msg: 'No existe un usuario por ese id'
+      });
+    }
+
+    await Usuario.findByIdAndDelete(uid);
+    
+    res.json({
+      ok: true,
+      msg: 'Usuario eliminado'
+    });
+    
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      msg: 'Error al intentar realizar un borrado'
+    });
+  }
+}
+
 module.exports = {
     getUsuarios,
     crearUsuario,
-    updateUsuario
-
-
+    updateUsuario,
+    borrarUsuario
 }
